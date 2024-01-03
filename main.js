@@ -1,4 +1,4 @@
-export function rederHeader() {
+function rederHeader(data = null) {
     return `
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,13 +22,16 @@ export function rederHeader() {
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                 </div>
+                <div>
+                    ${data ? `Hello ${data.email} - <button onclick="logout()">logout</button>` : `<a href="http://127.0.0.1:5500/authen">register/login</a>`}
+                </div>
             </div>
         </nav>
     </header>
     `
 }
 
-export function renderFooter() {
+function renderFooter() {
     return `
     <!-- Footer -->
     <footer class="text-center text-lg-start bg-body-tertiary text-muted">
@@ -149,4 +152,56 @@ export function renderFooter() {
     </footer>
     <!-- Footer -->
     `
+}
+
+function createToken(data) {
+    let dataJsonStr = JSON.stringify({
+        data,
+        privateKey: "NTBPhuoc"
+    });
+    let hashStr = ``;
+    for(let i in dataJsonStr) {
+        hashStr += dataJsonStr[i].charCodeAt(0) * 2 + "|"
+    }
+    return hashStr
+}
+
+function decodeToken(token) {
+    let baseStr = ``;
+    for (let i in token.split("|")) {
+        if(token.split("|")[i] == "") break
+        baseStr += String.fromCharCode(token.split("|")[i] / 2)
+    }
+    try {
+        return JSON.parse(baseStr)
+    }catch(err) {
+        return false
+    }
+} 
+
+function hash(str) {
+    str = `asasd**_${str}_32423asdsa`
+    let hashStr = "";
+    for(let i in str) {
+        hashStr += str[i].charCodeAt(0)
+    }
+    return hashStr * 2 + "yamieu"
+}
+
+function checkLogin() {
+    if(localStorage.getItem("token")) {
+        let tokenData = decodeToken(localStorage.getItem("token"));
+        if(tokenData.privateKey != "NTBPhuoc")  {
+            localStorage.removeItem("token")
+            return null
+        }
+        return tokenData.data
+    }else {
+        return null
+    }
+}
+
+function logout() {
+    localStorage.removeItem("token")
+    window.location.reload()
 }
