@@ -71,10 +71,15 @@ document.getElementById("formSignIn").addEventListener("submit", (e) => {
 document.getElementById("formRegister").addEventListener("submit", (e) => {
     register(e)
 })
-
+let load = false;
 document.getElementById("signInWithGoogle").addEventListener("click", async () => {
+    console.log("đã vào")
+        let loadEl = document.querySelector(".loader_box");
         try {
+            if(load) return
+            loadEl.classList.add("active")
             let result = await signInWithGoogle()
+            load = true;
             let users = JSON.parse(localStorage.getItem("users") || "[]");
             let checkUser = users.find(user => user.email == result.user.email)
             if(checkUser) {
@@ -97,7 +102,11 @@ document.getElementById("signInWithGoogle").addEventListener("click", async () =
                 localStorage.setItem("token", token)
                 window.location.href = '/'
             }
+            loadEl.classList.remove("active")
+            load = false
         }catch(err) {
-            console.log("err",err)
+            load = false
+            loadEl.classList.remove("active")
+            alert("Vui lòng thử lại")
         }
 })
