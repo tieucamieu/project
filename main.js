@@ -23,7 +23,7 @@ function rederHeader(data = null) {
                         </form>
                 </div>
                 <div>
-                    ${data ? `Hello ${data.email} - <button onclick="logout()">logout</button>` : `<a href="http://127.0.0.1:5500/authen">register/login</a>`}
+                    ${data ? `Hello ${data.email} - <img src="${data.avatar}" style="width: 50px; height: 50px; border-radius: 50%;"> - <button onclick="logout()">logout</button>` : `<a href="http://127.0.0.1:5500/authen">register/login</a>`}
                 </div>
             </div>
         </nav>
