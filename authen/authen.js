@@ -65,6 +65,23 @@ document.getElementById("signUp").addEventListener("click", () => {
 
 
 document.getElementById("formSignIn").addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    // fetch("http://127.0.0.1:3000", {
+    //     method: "get"
+    // })
+    // .then(res => res.json())
+    // .then(result => {
+    //     console.log("result", result)
+    // })
+
+    axios.get("http://127.0.0.1:3000?id=1")
+    .then(res => {
+        console.log("res", res)
+    })
+
+
+    return
     login(e)
 })
 
@@ -73,7 +90,6 @@ document.getElementById("formRegister").addEventListener("submit", (e) => {
 })
 let load = false;
 document.getElementById("signInWithGoogle").addEventListener("click", async () => {
-    console.log("đã vào")
         let loadEl = document.querySelector(".loader_box");
         try {
             if(load) return
